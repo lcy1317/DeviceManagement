@@ -154,7 +154,7 @@ func (s *Server) handleGetDeviceList(params shebei.GetGetDeviceListParams) middl
 	}
 
 	var deviceList []*models.DeviceListInfoDataItems0
-	for i := 1; i <= 256; i++ {
+	for i := 1; i <= 512; i++ {
 		id, err := f.GetCellValue("Sheet1", "A"+strconv.Itoa(i))
 		if err != nil {
 			return getDeviceListError("modify DeviceInfo Html Error!"+err.Error(), 500)
@@ -217,7 +217,7 @@ func (s *Server) handleGetDeviceListFull(params shebei.GetGetDeviceListFullParam
 	}
 
 	var deviceList []*models.DeviceListInfoFullDataItems0
-	for i := 1; i <= 256; i++ {
+	for i := 1; i <= 512; i++ {
 		id, err := f.GetCellValue("Sheet1", "A"+strconv.Itoa(i)) // 设备的ID
 		if err != nil {
 			return getDeviceListFullError("modify DeviceInfo Html Error!"+err.Error(), 500)
