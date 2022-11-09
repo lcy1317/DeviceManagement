@@ -1,0 +1,263 @@
+swagger: "2.0"
+info:
+  description: "lcyutils"
+  version: "1.0.0"
+  title: "lcyutils"
+host: "106.12.127.2"
+basePath: "/"
+tags:
+  - name: "overview"
+    description: "Overview information"
+schemes:
+  - "http"
+paths:
+  /send_private_msg:
+    post:
+      tags:
+        - "qq"
+      summary: "private message"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "user_id"
+          in: "query"
+          description: "QQ number"
+          required: true
+          type: "string"
+        - name: "message"
+          in: "query"
+          description: "message"
+          required: true
+          type: "string"
+
+      responses:
+        200:
+          description: "empty response"
+          schema:
+            type: "string"
+            example: "I am the token and I am here waiting for you! My lele!"
+        500:
+          description: "internal error"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /getDevice:
+    get:
+      tags:
+        - "shebei"
+      summary: "device record"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "token check no problem"
+          schema:
+            $ref: "#/definitions/DeviceInfo"
+        500:
+          description: "internal error"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /modifyDevice:
+    post:
+      tags:
+        - "shebei"
+      summary: "device record"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "categorie"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "dtype"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "time"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "belong"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "status"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "username"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "yikatong"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "position"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "ifmark"
+          in: "query"
+          required: true
+          type: "string"
+        - name: "verify"
+          in: "query"
+          required: true
+          type: "string"
+
+      responses:
+        200:
+          description: "token check no problem"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        500:
+          description: "internal error"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /modifyDeviceList:
+    post:
+      tags:
+        - "shebei"
+      summary: "device record"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "verify"
+          in: "query"
+          required: true
+          type: "string"
+
+      responses:
+        200:
+          description: "token check no problem"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        500:
+          description: "internal error"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /getDeviceList:
+    get:
+      tags:
+        - "shebei"
+      summary: "device record"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "token check no problem"
+          schema:
+            $ref: "#/definitions/DeviceListInfo"
+        500:
+          description: "internal error"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /getDeviceListFull:
+    get:
+      tags:
+        - "shebei"
+      summary: "device record"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "token check no problem"
+          schema:
+            $ref: "#/definitions/DeviceListInfoFull"
+        500:
+          description: "internal error"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+definitions:
+  DeviceListInfoFull:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            yikatong:
+              type: "string"
+            position:
+              type: "string"
+            categories:
+              type: "string"
+            buytime:
+              type: "string"
+            belong:
+              type: "string"
+            ifmark:
+              type: "string"
+            sn_code:
+              type: "string"
+            name:
+              type: "string"
+            type:
+              type: "string"
+            status:
+              type: "string"
+
+  DeviceListInfo:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      data:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            sn_code:
+              type: "string"
+            name:
+              type: "string"
+            type:
+              type: "string"
+            status:
+              type: "string"
+  DeviceInfo:
+    type: "object"
+    properties:
+      categories:
+        type: "string"
+      dtype:
+        type: "string"
+      time:
+        type: "string"
+      belong:
+        type: "string"
+      ifmark:
+        type: "string"
+      status:
+        type: "string"
+      username:
+        type: "string"
+      yikatong:
+        type: "string"
+      position:
+        type: "string"
+
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+

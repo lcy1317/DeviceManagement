@@ -1,0 +1,81 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width initial-scale=1'>
+
+    <link href='https://fonts.loli.net/css?family=PT+Serif:400,400italic,700,700italic&subset=latin,cyrillic-ext,cyrillic,latin-ext'
+          rel='stylesheet' type='text/css'/>
+
+    <link href="middleware/index.css" rel="stylesheet" type="text/css"/>
+
+    </style><title>王家恒课题组设备列表</title>
+
+    <script src="middleware/taidu_common.js"></script>
+    <script src="middleware/taidu_smartcommunity.js"></script>
+    <script src="middleware/jq-3.6.0.js"></script>
+
+</head>
+
+<body class='typora-export os-windows'>
+<div class='typora-export-content'>
+    <div id='main_title' class=''><center><h1 id='王家恒课题组设备登记'><span>王家恒课题组设备登记</span></h1></center>
+        <center><a href="./devicelist.html"><span>切换简略信息版  </span></a> 
+        <a href="./device.xlsx"><span>  下载设备信息</span></a></center>
+    </div>
+
+    <div class='' id='write'>
+        <figure>
+            <table id="part_to_write">
+                <thead>
+                <tr>
+                    <th><span>设备ID</span></th>
+                    <th><span>设备使用者</span></th>
+                    <th><span>分类</span></th>
+                    <th><span>型号</span></th>
+                    <th><span>入库时间</span></th>
+                    <th><span>归属</span></th>
+                    <th><span>资产标</span></th>
+                    <th><span>一卡通</span></th>
+                    <th><span>工位</span></th>
+                    <th><span>设备使用状态</span></th>
+                </tr>
+                </thead>
+
+            </table>
+        </figure>
+    </div>
+</div>
+
+
+<script>
+    base_link = "http://120.27.131.20:9000/";
+
+    function generate_item(id, sn_code, name, categories,buytime,belong,ifmark,yikatong,position,type,status) {
+        temp = "</span> </td><td><span>";
+        return "<tbody><tr><td><span><a href = \"http://www.seujyh.cn/device?id=" + id.toString() + "\">" + sn_code + "</a></span></td><td><span>" + name +temp + categories + temp+ buytime + temp + belong + temp + ifmark + temp + yikatong + temp + position + temp + type + temp+ status + "</span></td></tr></tbody>";
+    }
+
+    request('GET',
+        {},
+        base_link + "getDeviceListFull",      // 请给device_list接口返回一个如下结构的json：{code:xxx, data:[{id, sn_code, name, type}, {id, sn_code, name, type}, ...]}
+        function (status, output) {
+            if (output !== undefined && output.code === 500) {
+                alert(output.message);
+            } else if (output !== undefined && output.code === 200) {
+                dat = output.data;
+                for (var i = 0; i < dat.length; i++) {
+                    document.getElementById("part_to_write").innerHTML += generate_item(dat[i].id, dat[i].sn_code, dat[i].name, dat[i].categories,dat[i].type,dat[i].buytime,dat[i].belong,dat[i].ifmark,dat[i].yikatong,dat[i].position,dat[i].status);
+                }
+            } else {
+                alert("设备列表刷新失败，请重试或联系管理员！");
+            }
+        });
+
+
+</script>
+
+
+</body>
+</html>

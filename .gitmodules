@@ -1,0 +1,3 @@
+[submodule "golang/pkg/fisco-go-sdk"]
+	path = golang/pkg/fisco-go-sdk
+	url = ssh://git@code.corp.bcollie.net/source/fisco-go-sdk.git

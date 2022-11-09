@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="AlfredYong">
+    <title>王家恒课题组设备信息</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./middleware/bootstrap.min.css" rel="stylesheet"
+         crossorigin="anonymous">
+    <script src="./middleware/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+    <!-- Custom styles for this template -->
+    <link href="middleware/login-floating-labels.css" rel="stylesheet">
+
+    <!-- Javascripts -->
+    <script src="middleware/taidu_common.js"></script>
+    <script src="middleware/taidu_smartcommunity.js"></script>
+    <script src="middleware/jq-3.6.0.js"></script>
+
+
+</head>
+
+<body>
+<form class="form-signin" style="background-color: rgba(235, 235, 235, 0.5); padding: 2rem;">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="images/logo.fw.png" alt="" width="72" height="72">
+        <h1 class="h4 mb-3 font-weight-normal" id="btn_to_list">王家恒课题组设备卡</h1>
+    </div>
+
+    <div class="col">
+        <label class="form-label"> 设备序列号： </label>
+        <span class="form-label" id="device_id"></span>
+    </div>
+    <div class="col">
+        <label for="username" class="form-label">设备使用者：</label>
+        <input type="text" class="form-control" id="username" placeholder="张三丰">
+    </div>
+    <div class="col">
+        <label for="yikatong" class="form-label">一卡通号码：</label>
+        <input type="number" class="form-control" id="yikatong" placeholder="220201111">
+    </div>
+    <div class="col">
+        <label for="position" class="form-label">当前工位：</label>
+        <input type="text" class="form-control" id="position" placeholder="例：无线谷A1 1212 进门右手边第一排">
+    </div>
+    <div class="col">
+        <label for="categorie" class="form-label">设备分类：</label>
+        <input type="text" class="form-control" id="categorie" placeholder="例：机箱/显示器/笔记本/开发板/键鼠/...">
+    </div>
+    <div class="col">
+        <label for="dtype" class="form-label">设备型号：</label>
+        <input type="text" class="form-control" id="dtype" placeholder="例：AOC 31.5寸 显示器">
+    </div>
+    <div class="col">
+        <label for="time" class="form-label">设备入库时间：</label>
+        <input type="date" class="form-control" id="time">
+    </div>
+    <div class="col">
+        <label for="belong" class="form-label">设备所有权归属：</label>
+        <select class="form-select" id="belong">
+            <option value="东南大学" selected>东南大学</option>
+            <option value="紫金山实验室">紫金山实验室</option>
+            <option value="其它单位">其它单位</option>
+        </select>
+    </div>
+    <div class="col">
+        <label for="ifmark" class="form-label">固定资产标：</label>
+        <select class="form-select" id="ifmark">
+            <option value="有/Yes" selected>有/Yes</option>
+            <option value="无/No">无/No</option>
+        </select>
+    </div>
+
+    <div class="col">
+        <label for="status" class="form-label">设备状态：</label>
+        <select class="form-select" id="status">
+            <option value="待分配/Pending">待分配/Pending</option>
+            <option value="使用中/InUse" selected>使用中/InUse</option>
+            <option value="维修中/UnderFix" selected>维修中/UnderFix</option>
+            <option value="已报废/Abortion">已报废/Abortion</option>
+        </select>
+    </div>
+
+    <br>
+
+    <!-- 用于提示错误信息，默认隐藏该标签 -->
+    <div class="box" id="warning" style="display: none">
+        <p></p>
+    </div>
+
+    <div>
+        <center><a class="btn btn-sm btn-primary btn-block" id="btn_modify" type="button">修改信息</a></center>
+        <p class="mt-5 mb-3 text-muted text-center">&copy; 2022 王家恒教授课题组区块链研发团队</p>
+    </div>
+</form>
+
+<script>
+    var $_GET = (function () {
+        var url = window.document.location.href.toString(); //获取的完整url
+        var u = url.split("?");
+        if (typeof (u[1]) == "string") {
+            u = u[1].split("&");
+            var get = {};
+            for (var i in u) {
+                var j = u[i].split("=");
+                get[j[0]] = j[1];
+            }
+            return get;
+        } else {
+            return {};
+        }
+    })();
+
+    var deviceID = $_GET['id'];
+    var baseURL = "http://120.27.131.20:9000/getDevice";
+
+    request('get', {id: deviceID}, baseURL, function (status, output) {
+        document.getElementById("device_id").innerHTML = "JH-W-" + deviceID;
+
+        unreg_cnt = 0;
+
+        if (output.username === undefined || output.username.toString() === "undefined") {
+            unreg_cnt += 1;
+            output.username = "";
+        }
+        document.getElementById("username").value = output.username;
+
+        if (output.yikatong === undefined || output.yikatong.toString() === "undefined") {
+            unreg_cnt += 1;
+            output.yikatong = "";
+        }
+        document.getElementById("yikatong").value = output.yikatong;
+
+        if (output.position === undefined || output.position.toString() === "undefined") {
+            unreg_cnt += 1;
+            output.position = "";
+        }
+        document.getElementById("position").value = output.position;
+
+        if (output.categories === undefined || output.categories.toString() === "undefined") {
+            unreg_cnt += 1;
+            output.categories = "";
+        }
+        document.getElementById("categorie").value = output.categories;
+
+        if (output.dtype === undefined || output.dtype.toString() === "undefined") {
+            unreg_cnt += 1;
+            output.dtype = "";
+        }
+        document.getElementById("dtype").value = output.dtype;
+
+        if (output.time === undefined || output.time.toString() === "undefined") {
+            unreg_cnt += 1;
+            output.time = "";
+        }
+        document.getElementById("time").value = output.time;
+
+        var belong_options = document.getElementById("belong").options;
+        switch (output.belong) {
+            case "东南大学":
+                belong_options[0].selected = true;
+                break;
+            case "SEU":
+                belong_options[0].selected = true;
+                break;
+            case "紫金山实验室":
+                belong_options[1].selected = true;
+                break;
+            case "PML":
+                belong_options[1].selected = true;
+                break;
+            default:
+                belong_options[2].selected = true;
+                break;
+        }
+
+        var ifmark_options = document.getElementById("ifmark").options;
+        switch (output.ifmark) {
+            case "有/Yes":
+                ifmark_options[0].selected = true;
+                break;
+            case "无/No":
+                ifmark_options[1].selected = true;
+                break;
+            default:
+                ifmark_options[1].selected = true;
+                break;
+        }
+
+        var status_options = document.getElementById("status").options;
+        switch (output.status) {
+            case "待分配/Pending":
+                status_options[0].selected = true;
+                break;
+            case "使用中/InUse":
+                status_options[1].selected = true;
+                break;
+            case "维修中/UnderFix":
+                status_options[2].selected = true;
+                break;
+            case "已报废/Abortion":
+                status_options[3].selected = true;
+                break;
+            default:
+                ifmark_options[1].selected = true;
+                break;
+        }
+
+        if (unreg_cnt > 3) {
+            alert("您正在注册一个全新设备标签，请根据页面提示仔细填写！谢谢配合！");
+        }
+    });
+
+    document.getElementById("btn_modify").onclick = function () {
+        baseURL_modify = "http://120.27.131.20:9000/modifyDevice";  // 请添加api接口 并 支持以下post传入参数 并 新增sql记录修改操作
+        var verifyCode = prompt("请输入授权码").trim();
+
+        var belong_options = document.getElementById("belong");
+        var belong_value = belong_options.options[belong_options.selectedIndex].value;
+
+        var ifmark_options = document.getElementById("ifmark");
+        var ifmark_value = ifmark_options.options[ifmark_options.selectedIndex].value;
+
+        var status_options = document.getElementById("status");
+        var status_value = status_options.options[status_options.selectedIndex].value;
+
+        request('POST',
+            {
+                id: deviceID,
+                username: document.getElementById("username").value,
+                yikatong: document.getElementById("yikatong").value,
+                position: document.getElementById("position").value,
+                categorie: document.getElementById("categorie").value,
+                dtype: document.getElementById("dtype").value,
+                time: document.getElementById("time").value,
+                belong: belong_value,
+                ifmark: ifmark_value,
+                status: status_value,
+                verify: verifyCode
+            },
+            baseURL_modify,
+            function (status, output) {
+                if (output !== undefined && output.code === 500) {
+                    alert(output.message);
+                } else if (output !== undefined && output.code === 200) {
+                    alert("修改成功");
+                    window.location.reload();
+                } else {
+                    alert("修改失败，请重试或联系管理员！");
+                }
+            });
+
+
+    };
+
+    document.getElementById("btn_to_list").onclick = function () {
+        window.location.href = "http://www.seujyh.cn/devicelist";
+    }
+
+</script>
+</body>
+
+</html>
