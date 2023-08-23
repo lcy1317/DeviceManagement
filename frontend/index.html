@@ -74,9 +74,14 @@
     </div>
 
     <div class="col">
+        <label for="gdzc_number" class="form-label">设备分类：</label>
+        <input type="text" class="form-control" id="gdzc_number" placeholder="若无填写0000000000">
+    </div>
+
+    <div class="col">
         <label for="status" class="form-label">设备状态：</label>
         <select class="form-select" id="status">
-            <option value="待分配/Pending">待分配/Pending</option>
+            <option value="0000000000（无标签）">待分配/Pending</option>
             <option value="使用中/InUse" selected>使用中/InUse</option>
             <option value="维修中/UnderFix" selected>维修中/UnderFix</option>
             <option value="已报废/Abortion">已报废/Abortion</option>

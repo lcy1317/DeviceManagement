@@ -123,6 +123,9 @@ func (m *DeviceListInfo) UnmarshalBinary(b []byte) error {
 // swagger:model DeviceListInfoDataItems0
 type DeviceListInfoDataItems0 struct {
 
+	// gdzc number
+	GdzcNumber string `json:"gdzc_number,omitempty"`
+
 	// id
 	ID string `json:"id,omitempty"`
 

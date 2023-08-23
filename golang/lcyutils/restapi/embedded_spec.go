@@ -188,6 +188,12 @@ func init() {
             "name": "verify",
             "in": "query",
             "required": true
+          },
+          {
+            "type": "string",
+            "name": "gdzc_number",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -306,6 +312,9 @@ func init() {
         "dtype": {
           "type": "string"
         },
+        "gdzc_number": {
+          "type": "string"
+        },
         "ifmark": {
           "type": "string"
         },
@@ -337,6 +346,9 @@ func init() {
           "items": {
             "type": "object",
             "properties": {
+              "gdzc_number": {
+                "type": "string"
+              },
               "id": {
                 "type": "string"
               },
@@ -375,6 +387,9 @@ func init() {
                 "type": "string"
               },
               "categories": {
+                "type": "string"
+              },
+              "gdzc_number": {
                 "type": "string"
               },
               "id": {
@@ -585,6 +600,12 @@ func init() {
             "name": "verify",
             "in": "query",
             "required": true
+          },
+          {
+            "type": "string",
+            "name": "gdzc_number",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -703,6 +724,9 @@ func init() {
         "dtype": {
           "type": "string"
         },
+        "gdzc_number": {
+          "type": "string"
+        },
         "ifmark": {
           "type": "string"
         },
@@ -740,6 +764,9 @@ func init() {
     "DeviceListInfoDataItems0": {
       "type": "object",
       "properties": {
+        "gdzc_number": {
+          "type": "string"
+        },
         "id": {
           "type": "string"
         },
@@ -781,6 +808,9 @@ func init() {
           "type": "string"
         },
         "categories": {
+          "type": "string"
+        },
+        "gdzc_number": {
           "type": "string"
         },
         "id": {

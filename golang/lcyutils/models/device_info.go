@@ -26,6 +26,9 @@ type DeviceInfo struct {
 	// dtype
 	Dtype string `json:"dtype,omitempty"`
 
+	// gdzc number
+	GdzcNumber string `json:"gdzc_number,omitempty"`
+
 	// ifmark
 	Ifmark string `json:"ifmark,omitempty"`
 

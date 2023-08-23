@@ -94,6 +94,10 @@ func (s *Server) handleModifyDevice(params shebei.PostModifyDeviceParams) middle
 	if err != nil {
 		return modifyDeviceError("Modify DeviceInfo Error!"+err.Error(), 500)
 	}
+	err = f.SetCellValue("Sheet1", "K"+params.ID, params.GdzcNumber)
+	if err != nil {
+		return modifyDeviceError("Modify DeviceInfo Error!"+err.Error(), 500)
+	}
 	if err = f.SaveAs(Device_Info); err != nil {
 		return modifyDeviceError("Modify DeviceInfo Error!"+err.Error(), 500)
 	}
@@ -116,6 +120,7 @@ func (s *Server) handleGetDevice(params shebei.GetGetDeviceParams) middleware.Re
 		Username:   "Undefined",
 		Yikatong:   "Undefined",
 		Position:   "Undefined",
+		GdzcNumber: "Undefined",
 	}
 	f, err := excelize.OpenFile(Device_Info)
 	if err != nil {
@@ -130,6 +135,7 @@ func (s *Server) handleGetDevice(params shebei.GetGetDeviceParams) middleware.Re
 	com.Username, _ = f.GetCellValue("Sheet1", "H"+params.ID)
 	com.Yikatong, _ = f.GetCellValue("Sheet1", "I"+params.ID)
 	com.Position, _ = f.GetCellValue("Sheet1", "J"+params.ID)
+	com.GdzcNumber, _ = f.GetCellValue("Sheet1", "K"+params.ID)
 
 	//fmt.Println(com)
 
@@ -178,16 +184,22 @@ func (s *Server) handleGetDeviceList(params shebei.GetGetDeviceListParams) middl
 			return getDeviceListError("modify DeviceInfo Html Error!"+err.Error(), 500)
 		}
 
+		gdzc_number, err := f.GetCellValue("Sheet1", "K"+strconv.Itoa(i))
+		if err != nil {
+			return getDeviceListError("modify DeviceInfo Html Error!"+err.Error(), 500)
+		}
+
 		scode := id
 		for len(scode) < 5 {
 			scode = "0" + scode
 		}
 		deviceItem := &models.DeviceListInfoDataItems0{
-			ID:     id,
-			SnCode: "JH-W-" + scode,
-			Name:   user,
-			Type:   dtype,
-			Status: status,
+			ID:         id,
+			SnCode:     "JH-W-" + scode,
+			Name:       user,
+			Type:       dtype,
+			Status:     status,
+			GdzcNumber: gdzc_number,
 		}
 		deviceList = append(deviceList, deviceItem)
 	}
@@ -270,6 +282,11 @@ func (s *Server) handleGetDeviceListFull(params shebei.GetGetDeviceListFullParam
 			return getDeviceListFullError("modify DeviceInfo Html Error!"+err.Error(), 500)
 		}
 
+		gdzc_number, err := f.GetCellValue("Sheet1", "K"+strconv.Itoa(i))
+		if err != nil {
+			return getDeviceListFullError("modify DeviceInfo Html Error!"+err.Error(), 500)
+		}
+
 		scode := id
 		for len(scode) < 5 {
 			scode = "0" + scode
@@ -286,6 +303,7 @@ func (s *Server) handleGetDeviceListFull(params shebei.GetGetDeviceListFullParam
 			Status:     status,
 			Yikatong:   yikatong,
 			Position:   position,
+			GdzcNumber: gdzc_number,
 		}
 		deviceList = append(deviceList, deviceItem)
 	}
@@ -345,6 +363,14 @@ func (s *Server) handleModifyDeviceList(params shebei.PostModifyDeviceListParams
 		if len(dtype) < 2 {
 			continue
 		}
+
+		gdzc_number, err := f.GetCellValue("Sheet1", "K"+strconv.Itoa(i))
+		if err != nil {
+			return modifyDeviceListError("modify DeviceInfo Html Error!"+err.Error(), 500)
+		}
+		if len(dtype) < 2 {
+			continue
+		}
 		temp := "<tbody><tr><td><span><a href = \"http://www.seujyh.cn/device?id="
 		temp = temp + id
 		temp = temp + "\"> JH-W-"
@@ -353,6 +379,8 @@ func (s *Server) handleModifyDeviceList(params shebei.PostModifyDeviceListParams
 		temp = temp + user
 		temp = temp + "</span></td><td><span>"
 		temp = temp + dtype
+		temp = temp + "</span></td></tr></tbody>"
+		temp = temp + gdzc_number
 		temp = temp + "</span></td></tr></tbody>"
 		deviceInformation = deviceInformation + temp + "\n"
 	}

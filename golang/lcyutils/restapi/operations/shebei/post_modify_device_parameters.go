@@ -51,6 +51,11 @@ type PostModifyDeviceParams struct {
 	  Required: true
 	  In: query
 	*/
+	GdzcNumber string
+	/*
+	  Required: true
+	  In: query
+	*/
 	ID string
 	/*
 	  Required: true
@@ -112,6 +117,11 @@ func (o *PostModifyDeviceParams) BindRequest(r *http.Request, route *middleware.
 
 	qDtype, qhkDtype, _ := qs.GetOK("dtype")
 	if err := o.bindDtype(qDtype, qhkDtype, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qGdzcNumber, qhkGdzcNumber, _ := qs.GetOK("gdzc_number")
+	if err := o.bindGdzcNumber(qGdzcNumber, qhkGdzcNumber, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -219,6 +229,27 @@ func (o *PostModifyDeviceParams) bindDtype(rawData []string, hasKey bool, format
 		return err
 	}
 	o.Dtype = raw
+
+	return nil
+}
+
+// bindGdzcNumber binds and validates parameter GdzcNumber from query.
+func (o *PostModifyDeviceParams) bindGdzcNumber(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("gdzc_number", "query", rawData)
+	}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+	// AllowEmptyValue: false
+
+	if err := validate.RequiredString("gdzc_number", "query", raw); err != nil {
+		return err
+	}
+	o.GdzcNumber = raw
 
 	return nil
 }

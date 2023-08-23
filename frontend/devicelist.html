@@ -33,6 +33,7 @@
                     <th><span>设备使用者</span></th>
                     <th><span>设备型号</span></th>
                     <th><span>设备使用状态</span></th>
+                    <th><span>固定资产ID</span></th>
                 </tr>
                 </thead>
 
@@ -45,8 +46,8 @@
 <script>
     base_link = "http://120.27.131.20:9000/";
 
-    function generate_item(id, sn_code, name, type,status) {
-        return "<tbody><tr><td><span><a href = \"http://www.seujyh.cn/device?id=" + id.toString() + "\">" + sn_code + "</a></span> </td><td><span>" + name + "</span></td><td><span>" + type + "</span></td><td><span>"+ status + "</span></td></tr></tbody>";
+    function generate_item(id, sn_code, name, type,status,gdzc_number) {
+        return "<tbody><tr><td><span><a href = \"http://www.seujyh.cn/device?id=" + id.toString() + "\">" + sn_code + "</a></span> </td><td><span>" + name + "</span></td><td><span>" + type + "</span></td><td><span>"+ status + "</span></td></tr></tbody>"+ gdzc_number + "</span></td></tr></tbody>";
     }
 
     request('GET',
@@ -58,7 +59,7 @@
             } else if (output !== undefined && output.code === 200) {
                 dat = output.data;
                 for (var i = 0; i < dat.length; i++) {
-                    document.getElementById("part_to_write").innerHTML += generate_item(dat[i].id, dat[i].sn_code, dat[i].name, dat[i].type,dat[i].status);
+                    document.getElementById("part_to_write").innerHTML += generate_item(dat[i].id, dat[i].sn_code, dat[i].name, dat[i].type,dat[i].status,dat[i].gdzc_number);
                 }
             } else {
                 alert("设备列表刷新失败，请重试或联系管理员！");

@@ -132,6 +132,9 @@ type DeviceListInfoFullDataItems0 struct {
 	// categories
 	Categories string `json:"categories,omitempty"`
 
+	// gdzc number
+	GdzcNumber string `json:"gdzc_number,omitempty"`
+
 	// id
 	ID string `json:"id,omitempty"`
 

@@ -15,12 +15,9 @@ require (
 	github.com/go-openapi/swag v0.21.1
 	github.com/go-openapi/validate v0.20.3
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/google/uuid v1.3.0
-	github.com/gorilla/context v1.1.1
-	github.com/influxdata/toml v0.0.0-20180607005434-2a2e3012f7cf
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/sirupsen/logrus v1.8.1
-	github.com/xuri/excelize/v2 v2.6.0 // indirect
+	github.com/xuri/excelize/v2 v2.6.0
 	golang.org/x/net v0.0.0-20220407224826-aac1ed45d8e3
-	xorm.io/xorm v1.2.5
 )

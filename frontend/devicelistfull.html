@@ -40,6 +40,7 @@
                     <th><span>一卡通</span></th>
                     <th><span>工位</span></th>
                     <th><span>设备使用状态</span></th>
+                    <th><span>固定资产ID</span></th>
                 </tr>
                 </thead>
 
@@ -52,9 +53,9 @@
 <script>
     base_link = "http://120.27.131.20:9000/";
 
-    function generate_item(id, sn_code, name, categories,buytime,belong,ifmark,yikatong,position,type,status) {
+    function generate_item(id, sn_code, name, categories,buytime,belong,ifmark,yikatong,position,type,status,gdzc_number) {
         temp = "</span> </td><td><span>";
-        return "<tbody><tr><td><span><a href = \"http://www.seujyh.cn/device?id=" + id.toString() + "\">" + sn_code + "</a></span></td><td><span>" + name +temp + categories + temp+ buytime + temp + belong + temp + ifmark + temp + yikatong + temp + position + temp + type + temp+ status + "</span></td></tr></tbody>";
+        return "<tbody><tr><td><span><a href = \"http://www.seujyh.cn/device?id=" + id.toString() + "\">" + sn_code + "</a></span></td><td><span>" + name +temp + categories + temp+ buytime + temp + belong + temp + ifmark + temp + yikatong + temp + position + temp + type + temp+ status + temp+ gdzc_number + "</span></td></tr></tbody>";
     }
 
     request('GET',
@@ -66,7 +67,7 @@
             } else if (output !== undefined && output.code === 200) {
                 dat = output.data;
                 for (var i = 0; i < dat.length; i++) {
-                    document.getElementById("part_to_write").innerHTML += generate_item(dat[i].id, dat[i].sn_code, dat[i].name, dat[i].categories,dat[i].type,dat[i].buytime,dat[i].belong,dat[i].ifmark,dat[i].yikatong,dat[i].position,dat[i].status);
+                    document.getElementById("part_to_write").innerHTML += generate_item(dat[i].id, dat[i].sn_code, dat[i].name, dat[i].categories,dat[i].type,dat[i].buytime,dat[i].belong,dat[i].ifmark,dat[i].yikatong,dat[i].position,dat[i].status,dat[i].gdzc_number);
                 }
             } else {
                 alert("设备列表刷新失败，请重试或联系管理员！");

@@ -13,17 +13,18 @@ import (
 
 // PostModifyDeviceURL generates an URL for the post modify device operation
 type PostModifyDeviceURL struct {
-	Belong    string
-	Categorie string
-	Dtype     string
-	ID        string
-	Ifmark    string
-	Position  string
-	Status    string
-	Time      string
-	Username  string
-	Verify    string
-	Yikatong  string
+	Belong     string
+	Categorie  string
+	Dtype      string
+	GdzcNumber string
+	ID         string
+	Ifmark     string
+	Position   string
+	Status     string
+	Time       string
+	Username   string
+	Verify     string
+	Yikatong   string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -72,6 +73,11 @@ func (o *PostModifyDeviceURL) Build() (*url.URL, error) {
 	dtypeQ := o.Dtype
 	if dtypeQ != "" {
 		qs.Set("dtype", dtypeQ)
+	}
+
+	gdzcNumberQ := o.GdzcNumber
+	if gdzcNumberQ != "" {
+		qs.Set("gdzc_number", gdzcNumberQ)
 	}
 
 	idQ := o.ID
